@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>LUCIFER GOLD · Casino del Inframundo</title>
+  <link rel="icon" type="image/png" href="LogoTipo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Cinzel:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===================== PANTALLA DE BIENVENIDA ===================== -->
+  <section class="welcome-screen" id="welcome-screen">
+    <div class="welcome-glow"></div>
+    <div class="welcome-content">
+      <div class="welcome-hero">
+        <div class="welcome-logo-wrap">
+          <img class="welcome-icon" src="LogoTipo.png" alt="Lucifer Gold Casino" />
+        </div>
+        <div class="welcome-info">
+          <h1 class="welcome-title">LUCIFER<strong>GOLD</strong></h1>
+          <p class="welcome-tagline">Casino del Inframundo</p>
+          <p class="welcome-copy">
+            Bienvenido, alma apostadora. Aquí las fichas son de fuego y el saldo
+            es puro humo: todo es un <strong>simulador con dinero ficticio</strong>,
+            pensado para jugar, aprender y ver de cerca cómo funciona (y gana)
+            la casa — sin arriesgar un peso real.
+          </p>
+          <p class="welcome-hint">Elige con cuál juego quieres divertirte 👇</p>
+        </div>
+      </div>
+
+      <div class="welcome-grid">
+        <button class="welcome-card" data-game="roulette">
+          <span class="welcome-card-icon">🔥</span>
+          <span class="welcome-card-name">Giro Infernal</span>
+          <span class="welcome-card-desc">Ruleta tricolor de 13 casillas. Apuesta a color, número o par/impar.</span>
+        </button>
+        <button class="welcome-card" data-game="teenpatti">
+          <span class="welcome-card-icon">🕯️</span>
+          <span class="welcome-card-name">Aquelarre Maldito</span>
+          <span class="welcome-card-desc">Teen Patti de cócteles: adivina cuál gana la ronda con su combinación.</span>
+        </button>
+        <button class="welcome-card" data-game="slots">
+          <span class="welcome-card-icon">💀</span>
+          <span class="welcome-card-name">Traga-Almas 666</span>
+          <span class="welcome-card-desc">Tragamonedas clásica de 3 rodillos, con jackpot mayor incluido.</span>
+        </button>
+        <button class="welcome-card" data-game="montecarlo">
+          <span class="welcome-card-icon">🔮</span>
+          <span class="welcome-card-name">Oráculo Montecarlo</span>
+          <span class="welcome-card-desc">Simula miles de rondas y descubre la ventaja real de la casa.</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BARRA SUPERIOR: SALDO ===================== -->
+  <header class="topbar" id="topbar" hidden>
+    <div class="brand">
+      <button class="brand-home-btn" id="brand-home-btn" title="Volver al inicio">
+        <img class="brand-icon" src="LogoTipo.png" alt="Lucifer Gold" />
+        <span class="brand-name">LUCIFER<strong>GOLD</strong></span>
+      </button>
+    </div>
+    <div class="balance-pill">
+      <span class="balance-label">Saldo</span>
+      <span class="balance-amount" id="balance-amount">0</span>
+      <span class="balance-coin">🪙</span>
+    </div>
+  </header>
+
+  <!-- ===================== TOAST DE ERRORES / AVISOS ===================== -->
+  <div id="toast" class="toast" role="alert"></div>
+
+  <!-- ===================== NAVEGACIÓN DE JUEGOS ===================== -->
+  <nav class="game-nav" id="game-nav" hidden>
+    <button class="nav-btn active" data-game="roulette">🔥 Giro Infernal</button>
+    <button class="nav-btn" data-game="teenpatti">🕯️ Aquelarre Maldito</button>
+    <button class="nav-btn" data-game="slots">💀 Traga-Almas 666</button>
+    <button class="nav-btn" data-game="montecarlo">🔮 Oráculo Montecarlo</button>
+  </nav>
+
+  <main class="game-area" id="game-area" hidden>
+
+    <!-- ===================== JUEGO 1: RULETA ===================== -->
+
+    <section class="game-screen active" id="screen-roulette">
+      <div class="card wheel-card">
+        <h2 class="game-title">GIRO INFERNAL <span class="game-subtitle">Hellish Turn</span></h2>
+        <div class="phase-row">
+          <span class="phase-badge" id="roulette-phase">Apuestas abiertas</span>
+          <span class="timer" id="roulette-timer">15s</span>
+        </div>
+
+        <div class="wheel-wrap">
+          <div class="wheel-pointer">▼</div>
+          <div class="wheel" id="roulette-wheel"></div>
+        </div>
+
+        <div class="result-banner" id="roulette-result-banner" hidden>
+          Ganó el número <strong id="roulette-result-number">-</strong>
+          (<span id="roulette-result-color">-</span>)
+        </div>
+      </div>
+
+      <div class="card bet-card">
+        <h3 class="section-title">Elige tu apuesta <span class="min-bet">(mín. 100)</span></h3>
+
+        <div class="bet-group">
+          <p class="bet-group-label">Color (paga 3 a 1)</p>
+          <div class="chip-row">
+            <button class="color-chip amarillo" data-bet-type="color" data-bet-value="amarillo">Amarillo</button>
+            <button class="color-chip azul" data-bet-type="color" data-bet-value="azul">Azul</button>
+            <button class="color-chip rojo" data-bet-type="color" data-bet-value="rojo">Rojo</button>
+          </div>
+        </div>
+
+        <div class="bet-group">
+          <p class="bet-group-label">Número directo, 1-12 (paga 12 a 1)</p>
+          <div class="number-grid" id="roulette-number-grid"></div>
+        </div>
+
+        <div class="bet-group">
+          <p class="bet-group-label">Par / Impar (paga 2 a 1)</p>
+          <div class="chip-row">
+            <button class="option-chip" data-bet-type="parity" data-bet-value="par">Par</button>
+            <button class="option-chip" data-bet-type="parity" data-bet-value="impar">Impar</button>
+          </div>
+        </div>
+
+        <div class="amount-row">
+          <label for="roulette-amount">Monto</label>
+          <input type="number" id="roulette-amount" min="100" step="50" value="100" inputmode="numeric" />
+        </div>
+
+        <p class="hint" id="roulette-hint">Selecciona un tipo de apuesta arriba, luego confirma.</p>
+        <div class="active-bets" id="roulette-active-bets"></div>
+      </div>
+    </section>
+
+    <!-- ===================== JUEGO 2: TEEN PATTI ===================== -->
+    <section class="game-screen" id="screen-teenpatti">
+      <div class="card">
+        <h2 class="game-title">AQUELARRE MALDITO <span class="game-subtitle">Cursed Coven</span></h2>
+        <div class="phase-row">
+          <span class="phase-badge" id="teenpatti-phase">Apuestas abiertas</span>
+          <span class="timer" id="teenpatti-timer">15s</span>
+        </div>
+
+        <div class="cocktail-board" id="teenpatti-board">
+          <button class="cocktail-tile mojito" data-cocktail="Mojito">
+            <span class="cocktail-emoji">🍃</span>
+            <span class="cocktail-name">Mojito</span>
+            <span class="cocktail-combo" id="combo-Mojito">--</span>
+          </button>
+          <button class="cocktail-tile margarita" data-cocktail="Margarita">
+            <span class="cocktail-emoji">🍸</span>
+            <span class="cocktail-name">Margarita</span>
+            <span class="cocktail-combo" id="combo-Margarita">--</span>
+          </button>
+          <button class="cocktail-tile daiquiri" data-cocktail="Daiquiri">
+            <span class="cocktail-emoji">🍹</span>
+            <span class="cocktail-name">Daiquiri</span>
+            <span class="cocktail-combo" id="combo-Daiquiri">--</span>
+          </button>
+        </div>
+
+        <div class="cards-row" id="teenpatti-cards"></div>
+      </div>
+
+      <div class="card bet-card">
+        <h3 class="section-title">Apuesta por cócteles <span class="min-bet">(mín. 50, hasta 2 cócteles, paga 3 a 1)</span></h3>
+        <div class="amount-row">
+          <label for="teenpatti-amount">Monto</label>
+          <input type="number" id="teenpatti-amount" min="50" step="25" value="50" inputmode="numeric" />
+        </div>
+        <p class="hint" id="teenpatti-hint">Toca hasta 2 cócteles arriba para apostar por ellos.</p>
+        <div class="active-bets" id="teenpatti-active-bets"></div>
+      </div>
+
+      <div class="card bet-card">
+        <h3 class="section-title">👑 Apuesta Crown <span class="min-bet">(mín. 50, paga según la combinación)</span></h3>
+        <p class="hint">Gana si el cóctel ganador de la ronda logra una combinación especial (Trío, Escalera del mismo color, Escalera, Mismo color o Pareja). No paga si el ganador solo tiene "Carta alta".</p>
+        <div class="amount-row">
+          <label for="crown-amount">Monto</label>
+          <input type="number" id="crown-amount" min="50" step="25" value="50" inputmode="numeric" />
+        </div>
+        <button class="crown-btn" id="crown-bet-btn">Apostar a Crown 👑</button>
+        <p class="hint" id="crown-hint"></p>
+      </div>
+
+      <div class="card">
+        <h4 class="section-subtitle">Últimos 5 ganadores</h4>
+        <div class="history-row" id="teenpatti-history"></div>
+      </div>
+    </section>
+
+    <!-- ===================== JUEGO 3: TRAGAMONEDAS ===================== -->
+    <section class="game-screen" id="screen-slots">
+      <div class="card slots-card">
+        <h2 class="game-title">TRAGA-ALMAS 666 <span class="game-subtitle">Soul Reels</span></h2>
+        <div class="reels" id="slots-reels">
+          <div class="reel" id="reel-0"><div class="reel-strip" id="strip-0"><div class="reel-cell">7</div></div></div>
+          <div class="reel" id="reel-1"><div class="reel-strip" id="strip-1"><div class="reel-cell">BAR</div></div></div>
+          <div class="reel" id="reel-2"><div class="reel-strip" id="strip-2"><div class="reel-cell">💀</div></div></div>
+        </div>
+
+        <div class="result-banner" id="slots-result-banner" hidden>
+          <span id="slots-result-label">-</span>
+          <div class="prize-line" id="slots-result-prize"></div>
+        </div>
+
+        <div class="amount-row">
+          <label for="slots-amount">Monto</label>
+          <input type="number" id="slots-amount" min="100" step="50" value="100" inputmode="numeric" />
+        </div>
+
+        <button class="spin-btn" id="slots-spin-btn">INVOCAR 💀</button>
+        <p class="hint">Apuesta mínima: 100 monedas.</p>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">Tabla de condenas</h3>
+        <ul class="paytable">
+          <li><span>7 - 7 - 7</span><strong>x300</strong></li>
+          <li><span>BAR - BAR - BAR</span><strong>x30</strong></li>
+          <li><span>💀 - 💀 - 💀</span><strong>x10</strong></li>
+          <li><span>🩸 - 🩸 - 🩸</span><strong>x5</strong></li>
+          <li><span>7 - 7 - *</span><strong>x3</strong></li>
+          <li><span>🩸 - 🩸 - *</span><strong>x1</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== ANÁLISIS: EL ORÁCULO MONTECARLO ===================== -->
+    <section class="game-screen" id="screen-montecarlo">
+      <div class="card">
+        <h2 class="game-title">EL ORÁCULO MONTECARLO <span class="game-subtitle">The Oracle</span></h2>
+        <h3 class="section-title">🔮 Análisis de probabilidades</h3>
+        <p class="hint">
+          Simula miles (o cientos de miles) de rondas de un juego, con la misma
+          apuesta repetida cada vez, usando exactamente las mismas reglas y
+          probabilidades del servidor. Así se estima el valor esperado y la
+          ventaja de la casa sin arriesgar tu saldo real, y se comprueba cómo
+          el resultado promedio converge al valor teórico a medida que crecen
+          las rondas (la Ley de los Grandes Números en acción).
+        </p>
+
+        <div class="bet-group">
+          <p class="bet-group-label">Juego a analizar</p>
+          <div class="chip-row" id="mc-game-tabs">
+            <button class="option-chip selected" data-mc-game="roulette">🔥 Giro Infernal</button>
+            <button class="option-chip" data-mc-game="teenpatti">🕯️ Aquelarre Maldito</button>
+            <button class="option-chip" data-mc-game="slots">💀 Traga-Almas 666</button>
+          </div>
+        </div>
+
+        <!-- Opciones específicas de Ruleta -->
+        <div class="mc-options" id="mc-options-roulette">
+          <div class="bet-group">
+            <p class="bet-group-label">Apuesta a repetir cada ronda</p>
+            <div class="chip-row">
+              <button class="option-chip selected" data-mc-bet-type="color" data-mc-bet-value="rojo">Color Rojo</button>
+              <button class="option-chip" data-mc-bet-type="color" data-mc-bet-value="azul">Color Azul</button>
+              <button class="option-chip" data-mc-bet-type="color" data-mc-bet-value="amarillo">Color Amarillo</button>
+              <button class="option-chip" data-mc-bet-type="number" data-mc-bet-value="7">Número 7</button>
+              <button class="option-chip" data-mc-bet-type="parity" data-mc-bet-value="par">Par</button>
+              <button class="option-chip" data-mc-bet-type="parity" data-mc-bet-value="impar">Impar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opciones específicas de Teen Patti -->
+        <div class="mc-options" id="mc-options-teenpatti" hidden>
+          <div class="bet-group">
+            <p class="bet-group-label">Cóctel a repetir cada ronda</p>
+            <div class="chip-row">
+              <button class="option-chip selected" data-mc-cocktail="Mojito">Mojito</button>
+              <button class="option-chip" data-mc-cocktail="Margarita">Margarita</button>
+              <button class="option-chip" data-mc-cocktail="Daiquiri">Daiquiri</button>
+              <button class="option-chip" data-mc-cocktail="none">Sin apuesta a cóctel</button>
+            </div>
+          </div>
+          <div class="bet-group">
+            <label class="checkbox-row">
+              <input type="checkbox" id="mc-crown-toggle" />
+              Incluir también apuesta Crown 👑 en cada ronda
+            </label>
+          </div>
+        </div>
+
+        <!-- Tragamonedas no necesita opciones: siempre es "girar" -->
+
+        <div class="amount-row">
+          <label for="mc-amount">Monto/ronda</label>
+          <input type="number" id="mc-amount" min="10" step="10" value="100" inputmode="numeric" />
+        </div>
+
+        <div class="amount-row">
+          <label for="mc-rounds">Rondas</label>
+          <select id="mc-rounds">
+            <option value="100">100</option>
+            <option value="1000" selected>1.000</option>
+            <option value="10000">10.000</option>
+            <option value="50000">50.000</option>
+            <option value="100000">100.000</option>
+          </select>
+        </div>
+
+        <button class="spin-btn" id="mc-run-btn">▶ Ejecutar simulación</button>
+        <p class="hint" id="mc-status"></p>
+      </div>
+
+      <div class="card" id="mc-results" hidden>
+        <h3 class="section-title">Resultados de la simulación</h3>
+        <div class="mc-stats-grid" id="mc-stats-grid"></div>
+        <h4 class="section-subtitle">Evolución del saldo simulado (ganancia/pérdida acumulada)</h4>
+        <canvas id="mc-chart" width="640" height="260"></canvas>
+        <p class="hint" id="mc-explainer"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Cliente de Socket.io servido automáticamente por el backend -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/roulette.js"></script>
+  <script src="js/teenpatti.js"></script>
+  <script src="js/slots.js"></script>
+  <script src="js/montecarlo.js"></script>
+</body>
+</html>

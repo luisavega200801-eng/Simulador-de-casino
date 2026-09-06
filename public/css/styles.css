@@ -1,0 +1,1109 @@
+/* =====================================================================
+   LUCIFER GOLD - CASINO DEL INFRAMUNDO
+   Paleta: fondo negro-carmesí profundo + acentos neón + dorado infernal
+   ===================================================================== */
+
+:root {
+  --bg-deep: #05050a;
+  --bg-panel: #100a16;
+  --bg-panel-2: #170f1e;
+
+  --neon-blue: #3b82f6;
+  --neon-purple: #a855f7;
+  --neon-green: #22e6a3;
+  --neon-red: #ff4d6d;
+  --neon-yellow: #ffd23f;
+
+  --infernal-red: #c4183a;
+  --infernal-gold: #ffb347;
+
+  --text-primary: #f4f4fb;
+  --text-muted: #8f8fb3;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --touch-min: 48px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(196, 24, 58, 0.20), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.16), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255, 179, 71, 0.08), transparent 55%),
+    var(--bg-deep);
+  padding-bottom: 24px;
+}
+
+/* ---------------------- BARRA SUPERIOR / SALDO ---------------------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(10, 4, 8, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(196, 24, 58, 0.35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  font-family: "Cinzel", "Segoe UI", serif;
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px var(--infernal-red));
+  animation: flicker 2.6s infinite ease-in-out;
+}
+
+.brand-name strong {
+  background: linear-gradient(90deg, var(--infernal-gold), var(--infernal-red));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--infernal-red); }
+  45% { opacity: 0.75; text-shadow: 0 0 4px var(--infernal-red); }
+  50% { opacity: 1; text-shadow: 0 0 16px var(--infernal-red), 0 0 4px var(--infernal-gold); }
+  78% { opacity: 0.85; text-shadow: 0 0 6px var(--infernal-red); }
+}
+
+/* Títulos temáticos dentro de cada juego (ej. "GIRO INFERNAL") */
+.game-title {
+  margin: 0 0 10px;
+  text-align: center;
+  font-family: "Creepster", "Cinzel", cursive;
+  font-size: 26px;
+  letter-spacing: 1px;
+  color: var(--infernal-gold);
+  text-shadow: 0 0 12px rgba(196, 24, 58, 0.75), 0 0 24px rgba(255, 179, 71, 0.35);
+}
+
+.game-subtitle {
+  display: block;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.balance-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-panel);
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--bg-panel), var(--bg-panel)),
+    linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 0 14px rgba(34, 230, 163, 0.25);
+}
+
+.balance-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.balance-amount {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--neon-green);
+  min-width: 2ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------- TOAST ---------------------- */
+.toast {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--bg-panel-2);
+  border: 1px solid var(--neon-red);
+  color: var(--text-primary);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  box-shadow: 0 0 16px rgba(255, 77, 109, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 100;
+  max-width: 88vw;
+  text-align: center;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------------------- NAVEGACIÓN DE JUEGOS ---------------------- */
+.game-nav {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px 4px;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  flex: 1;
+  min-height: var(--touch-min);
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.nav-btn.active {
+  color: var(--text-primary);
+  border-color: var(--neon-blue);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(168, 85, 247, 0.18));
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.35);
+}
+
+/* ---------------------- LAYOUT GENERAL ---------------------- */
+.game-area {
+  padding: 12px 16px 40px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.game-screen {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.game-screen.active {
+  display: flex;
+}
+
+/* ---------------------- TARJETAS NEÓN ---------------------- */
+.card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2)),
+    linear-gradient(135deg, var(--neon-blue), var(--neon-purple) 50%, var(--neon-green));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.12), 0 0 40px rgba(168, 85, 247, 0.08);
+}
+
+.section-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  margin: 16px 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.min-bet {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ---------------------- FASE / TEMPORIZADOR ---------------------- */
+.phase-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.phase-badge {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(34, 230, 163, 0.12);
+  color: var(--neon-green);
+  border: 1px solid rgba(34, 230, 163, 0.4);
+}
+
+.phase-badge.locked {
+  color: var(--neon-yellow);
+  background: rgba(255, 210, 63, 0.12);
+  border-color: rgba(255, 210, 63, 0.4);
+}
+
+.phase-badge.result {
+  color: var(--neon-purple);
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+
+/* ---------------------- RULETA: RUEDA ---------------------- */
+.wheel-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 6px auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--neon-green);
+  font-size: 22px;
+  text-shadow: 0 0 10px var(--neon-green);
+  z-index: 5;
+}
+
+.wheel {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.35), inset 0 0 20px rgba(0, 0, 0, 0.6);
+  transition: transform 4.5s cubic-bezier(0.15, 0.85, 0.25, 1);
+  position: relative;
+}
+
+/* La rueda ahora se dibuja como un SVG (ver roulette.js: buildWheel).
+   Al usar un viewBox interno de 200x200 y escalar al 100% del contenedor,
+   TODO se reajusta proporcionalmente sin importar cuán grande o chico sea
+   .wheel — así se elimina el desfase que salía en pantallas anchas. */
+.wheel-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.wheel-bezel-outer {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1.5;
+}
+
+.wheel-wedge {
+  stroke: rgba(5, 5, 15, 0.55);
+  stroke-width: 1.2;
+}
+
+.wheel-separator {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 0.6;
+}
+
+.wheel-hub-ring {
+  fill: none;
+  stroke: var(--neon-purple);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.65));
+}
+
+.wheel-bolt {
+  fill: rgba(255, 255, 255, 0.28);
+}
+
+.wheel-hub-icon {
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: var(--neon-green);
+  filter: drop-shadow(0 0 6px rgba(34, 230, 163, 0.85));
+}
+
+.wheel-number-text {
+  font-size: 13px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.25);
+  stroke-width: 0.6;
+}
+
+/* Los números viven dentro de este grupo, pero ya NO se contra-rotan:
+   giran pegados a su gajo cuando .wheel rota (como una ruleta real). */
+.wheel-numbers-group {
+  transform-origin: 100px 100px;
+  /* Mantiene todos los números derechos mientras gira la rueda.
+     roulette.js actualiza --wheel-rotation en cada giro. */
+  transform: rotate(calc(-1 * var(--wheel-rotation, 0deg)) 100px 100px);
+}
+
+.result-banner {
+  text-align: center;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  font-size: 14px;
+}
+
+/* ---------------------- CHIPS DE APUESTA ---------------------- */
+.bet-group {
+  margin-bottom: 16px;
+}
+
+.bet-group-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.chip-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color-chip, .option-chip {
+  min-height: var(--touch-min);
+  min-width: 44px;
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 700;
+  font-size: 13px;
+  color: #0a0a12;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.color-chip:active, .option-chip:active {
+  transform: scale(0.96);
+}
+
+.color-chip.amarillo { background: var(--neon-yellow); }
+.color-chip.azul { background: var(--neon-blue); color: #fff; }
+.color-chip.rojo { background: var(--neon-red); color: #fff; }
+
+.option-chip {
+  background: var(--bg-panel-2);
+  color: var(--text-primary);
+  border: 1px solid var(--neon-purple);
+}
+
+.color-chip.selected, .option-chip.selected {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 0 18px currentColor;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.number-chip {
+  min-height: var(--touch-min);
+  min-width: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 700;
+  font-size: 14px;
+  color: #0a0a12;
+}
+
+.number-chip.amarillo { background: var(--neon-yellow); }
+.number-chip.azul { background: var(--neon-blue); color: #fff; }
+.number-chip.rojo { background: var(--neon-red); color: #fff; }
+
+.number-chip.selected {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4), 0 0 16px currentColor;
+}
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.amount-row label {
+  font-size: 13px;
+  color: var(--text-muted);
+  min-width: 52px;
+}
+
+.amount-row input {
+  flex: 1;
+  min-height: var(--touch-min);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neon-blue);
+  background: #0a0a1c;
+  color: var(--text-primary);
+  font-size: 16px;
+  padding: 0 14px;
+  font-weight: 700;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+
+.active-bets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.active-bet-tag {
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(34, 230, 163, 0.14);
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+}
+
+/* ---------------------- TEEN PATTI ---------------------- */
+.cocktail-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cocktail-tile {
+  min-height: 96px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-panel-2);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: box-shadow 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
+}
+
+.cocktail-tile:active {
+  transform: scale(0.97);
+}
+
+.cocktail-tile.selected {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 16px rgba(34, 230, 163, 0.5);
+}
+
+.cocktail-tile.winner {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 22px rgba(255, 210, 63, 0.7);
+  animation: pulse-win 0.9s ease-in-out infinite;
+}
+
+@keyframes pulse-win {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 210, 63, 0.5); }
+  50% { box-shadow: 0 0 26px rgba(255, 210, 63, 0.9); }
+}
+
+.cocktail-emoji { font-size: 24px; }
+.cocktail-name { font-size: 13px; font-weight: 700; }
+.cocktail-combo {
+  font-size: 11px;
+  color: var(--neon-blue);
+  text-align: center;
+  min-height: 14px;
+}
+
+.crown-btn {
+  width: 100%;
+  min-height: var(--touch-min);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neon-yellow);
+  background: linear-gradient(90deg, rgba(255, 210, 63, 0.16), rgba(168, 85, 247, 0.16));
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 14px;
+  margin-top: 4px;
+  box-shadow: 0 0 16px rgba(255, 210, 63, 0.25);
+}
+
+.crown-btn:active {
+  transform: scale(0.98);
+}
+
+.crown-btn:disabled {
+  opacity: 0.5;
+}
+
+.cards-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 6px;
+  min-height: 40px;
+}
+
+.mini-card {
+  font-size: 11px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mini-card.red { color: var(--neon-red); }
+.mini-card.black { color: #e5e5f0; }
+
+.history-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.history-chip {
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid var(--neon-blue);
+  color: var(--text-primary);
+}
+
+/* ---------------------- TRAGAMONEDAS ---------------------- */
+.slots-card {
+  text-align: center;
+}
+
+.reels {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.reel {
+  width: 76px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  background: #0a0a1c;
+  border: 2px solid var(--neon-purple);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.6);
+}
+
+/* La tira de simbolos es más alta que la ventana (.reel); se traslada en
+   Y para "hacer pasar" símbolos y aterrizar en el resultado real. */
+.reel-strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.reel-cell {
+  height: 90px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(255, 77, 109, 0.55);
+}
+
+/* Fase de espera: bucle infinito perfecto (la tira está duplicada al
+   100%, así que -50% ya se ve igual al 0%, sin salto visible). */
+.reel-strip.spinning-loop {
+  animation: reel-loop 0.35s linear infinite;
+}
+
+@keyframes reel-loop {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.reel.win {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 22px rgba(255, 210, 63, 0.8);
+}
+
+.reel.win .reel-cell {
+  text-shadow: 0 0 14px rgba(255, 210, 63, 0.9);
+}
+
+.spin-btn {
+  width: 100%;
+  min-height: 56px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
+  margin-top: 8px;
+}
+
+.spin-btn:active {
+  transform: scale(0.98);
+}
+
+.spin-btn:disabled {
+  opacity: 0.5;
+}
+
+.paytable {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.paytable li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-panel-2);
+}
+
+.paytable li strong {
+  color: var(--neon-green);
+}
+
+/* ---------------------- MONTE CARLO ---------------------- */
+.mc-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mc-stat {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mc-stat-label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.mc-stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.mc-stat-value.positive { color: var(--neon-green); }
+.mc-stat-value.negative { color: var(--neon-red); }
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+  min-height: var(--touch-min);
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--neon-green);
+}
+
+#mc-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+  background: #0a0a1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mc-options[hidden] { display: none; }
+
+select#mc-rounds {
+  flex: 1;
+  min-height: var(--touch-min);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neon-blue);
+  background: #0a0a1c;
+  color: var(--text-primary);
+  font-size: 15px;
+  padding: 0 12px;
+  font-weight: 700;
+}
+
+/* ---------------------- RESPONSIVE MÓVIL ---------------------- */
+@media (max-width: 380px) {
+  .wheel-wrap { width: 190px; height: 190px; }
+  .wheel { width: 180px; height: 180px; }
+  .number-grid { grid-template-columns: repeat(4, 1fr); }
+  .reel { width: 64px; height: 78px; font-size: 20px; }
+  .reel-cell { height: 78px; min-height: 78px; font-size: 20px; }
+}
+
+/* ---------------------- RESPONSIVE ESCRITORIO / TABLET ----------------------
+   El diseño base está pensado mobile-first (por eso .game-area tiene un
+   max-width angosto). En pantallas anchas ampliamos el contenedor y pasamos
+   a un layout de 2 columnas para que el juego no se vea "perdido" en medio
+   de la pantalla. ---------------------------------------------------------- */
+@media (min-width: 760px) {
+  .game-area {
+    max-width: 1120px;
+    padding: 20px 28px 56px;
+  }
+
+  .game-nav {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 28px 6px;
+  }
+
+  .nav-btn {
+    flex: 0 1 240px;
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .topbar {
+    padding: 16px 28px;
+  }
+
+  /* Layout en 2 columnas: tablero/rueda/rodillos a la izquierda,
+     controles de apuesta y paneles secundarios a la derecha */
+  .game-screen.active {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    align-items: start;
+    gap: 20px;
+  }
+
+  .card { padding: 24px; }
+
+  /* Ruleta más grande */
+  .wheel-wrap { width: 300px; height: 300px; margin: 10px auto 24px; }
+  .wheel { width: 290px; height: 290px; }
+  .wheel-number { width: 32px; height: 32px; margin: -16px; font-size: 13px; }
+
+  /* Tragamonedas más grande */
+  .reel { width: 96px; height: 116px; font-size: 34px; }
+  .reel-cell { height: 116px; min-height: 116px; font-size: 34px; }
+  .spin-btn { font-size: 19px; min-height: 62px; }
+
+  .section-title { font-size: 17px; }
+  .timer { font-size: 20px; }
+  .balance-amount { font-size: 19px; }
+}
+
+@media (min-width: 1200px) {
+  .game-area { max-width: 1280px; }
+  .game-nav { max-width: 1280px; }
+  .game-screen.active { grid-template-columns: minmax(360px, 460px) 1fr; }
+}
+
+/* ---------------------- PANTALLA DE BIENVENIDA ---------------------- */
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 32px 18px;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(196, 24, 58, 0.28), transparent 55%),
+    radial-gradient(circle at 15% 90%, rgba(168, 85, 247, 0.20), transparent 50%),
+    radial-gradient(circle at 85% 85%, rgba(255, 179, 71, 0.10), transparent 50%),
+    var(--bg-deep);
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+
+.welcome-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.welcome-screen[hidden] {
+  display: none;
+}
+
+.welcome-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 179, 71, 0.12), transparent 40%);
+  animation: welcome-pulse 4.5s ease-in-out infinite;
+}
+
+@keyframes welcome-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.welcome-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.welcome-hero {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 28px;
+}
+
+.welcome-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-icon {
+  width: 290px;
+  height: 290px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 18px rgba(196, 24, 58, 0.75));
+  animation: flicker 2.6s infinite ease-in-out;
+}
+
+.welcome-info {
+  text-align: left;
+}
+
+.welcome-title {
+  margin: 0;
+  font-family: "Creepster", "Cinzel", cursive;
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: 2px;
+  color: var(--infernal-gold);
+  text-shadow: 0 0 16px rgba(196, 24, 58, 0.8), 0 0 34px rgba(255, 179, 71, 0.35);
+}
+
+.welcome-title strong {
+  color: #fff;
+}
+
+.welcome-tagline {
+  margin: 7px 0 22px;
+  font-family: "Cinzel", serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.welcome-copy {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.65;
+  max-width: 600px;
+  margin: 0 0 18px;
+}
+
+.welcome-copy strong {
+  color: var(--infernal-gold);
+}
+
+.welcome-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.welcome-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.welcome-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  padding: 18px 14px;
+  border-radius: var(--radius-lg);
+  background: rgba(23, 15, 30, 0.75);
+  border: 1px solid rgba(196, 24, 58, 0.3);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: var(--touch-min);
+}
+
+.welcome-card:active {
+  transform: scale(0.97);
+}
+
+.welcome-card:hover {
+  border-color: var(--infernal-gold);
+  box-shadow: 0 0 20px rgba(255, 179, 71, 0.25);
+}
+
+.welcome-card-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 8px rgba(196, 24, 58, 0.6));
+}
+
+.welcome-card-name {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--infernal-gold);
+}
+
+.welcome-card-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.brand-home-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+@media (max-width: 700px) {
+  .welcome-screen {
+    align-items: flex-start;
+    padding: 28px 16px 40px;
+  }
+
+  .welcome-content {
+    max-width: 560px;
+    margin: auto;
+  }
+
+  .welcome-hero {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .welcome-logo-wrap {
+    order: 0;
+  }
+
+  .welcome-icon {
+    width: min(230px, 65vw);
+    height: min(230px, 65vw);
+  }
+
+  .welcome-info {
+    text-align: center;
+  }
+
+  .welcome-title {
+    font-size: clamp(38px, 12vw, 52px);
+  }
+
+  .welcome-tagline {
+    margin-bottom: 16px;
+  }
+
+  .welcome-copy {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .welcome-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  .welcome-hero {
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .welcome-icon {
+    width: 230px;
+    height: 230px;
+  }
+}
